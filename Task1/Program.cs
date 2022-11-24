@@ -4,30 +4,32 @@ class Program
 {
     static void Main(string[] args)
     {
-        Estimate(20);
+        // читаем весь файл с рабочего стола в строку текста
+        string text = File.ReadAllText("C:\\Users\\annab\\Downloads\\Text1.txt");
 
-        static void AddList()
+        // cохраняем символы-разделители в массив
+        char[] delimiters = new char[] { ' ', '\r', '\n' };
+
+        // разбиваем нашу строку текста, используя ранее перечисленные символы-разделители
+        string[] words = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+
+        Estimate(10, words);
+
+        static void AddList(string[] words)
         {
-            // читаем весь файл с рабочего стола в строку текста
-            string text = File.ReadAllText("C:\\Users\\annab\\Downloads\\Text1.txt");
-
-            // Сохраняем символы-разделители в массив
-            char[] delimiters = new char[] { ' ', '\r', '\n' };
-
-            // разбиваем нашу строку текста, используя ранее перечисленные символы-разделители
-            string[] words = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-            var str = new List<string>();
-
-            str.AddRange(words);
-
-            //foreach (var word in str)
-            //    Console.WriteLine(word);
+            List<string> str = new List<string>(words);
 
             str.Add("qwerty");
         }
-       
-        static void Estimate(int n)
+
+        static void AddLinkedList(string[] words)
+        {
+            LinkedList<string> str = new LinkedList<string>(words);
+
+            str.AddLast("qwerty");
+        }
+
+        static void Estimate(int n, string[] words)
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -35,27 +37,18 @@ class Program
             {
                 timer.Restart();
 
-                AddList();
+                AddList(words);
 
                 timer.Stop();
-                Console.WriteLine(timer.ElapsedMilliseconds);
+                Console.WriteLine($"List:{timer.ElapsedMilliseconds}");
+
+                timer.Restart();
+
+                AddLinkedList(words);
+
+                timer.Stop();
+                Console.WriteLine($"LinkedList:{timer.ElapsedMilliseconds}");
             }
-            
-            Console.WriteLine(timer.ElapsedMilliseconds);
-        }
-
-        static void AddLinkedList()
-        {
-            // читаем весь файл с рабочего стола в строку текста
-            string text = File.ReadAllText("C:\\Users\\annab\\Downloads\\Text1.txt");
-
-            // Сохраняем символы-разделители в массив
-            char[] delimiters = new char[] { ' ', '\r', '\n' };
-
-            // разбиваем нашу строку текста, используя ранее перечисленные символы-разделители
-            string[] words = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
-
-
         }
     }
 }
